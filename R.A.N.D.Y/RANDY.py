@@ -9,22 +9,27 @@ def Speech(audio):
     Engine.say(audio)
     Engine.runAndWait()
 
-def Orders():
+def takeCommand():
+     
     r = sr.Recognizer()
-    with sr.Microphone() as Source:
-        print("How can I help You...")
-        r.pause_threshold=1
-        r.adjust_for_ambient_noise(Source,duration=1)
-        audio = r.listen(Source)
-        
+     
+    with sr.Microphone() as source:
+         
+        print("Listening...")
+        r.pause_threshold = 1
+        r.adjust_for_ambient_noise(source,duration=1)
+        audio = r.listen(source)
+  
     try:
-        print("Plz Wait...")
-        query = r.recognize_google_cloud(audio,language='en-in')
-        print(f"You Said: {query}\n")
+        print("Recognizing...")    
+        query = r.recognize_google(audio, language ='en-in')
+        print(f"User said: {query}\n")
+  
     except Exception as e:
-        print(e)
-        Speech("PARDON PLZ....")
-        query="none"
+        print(e)    
+        print("Unable to Recognize your voice.")  
+        return "None"
+     
     return query
-query=Orders().lower()  
+takeCommand()
     
